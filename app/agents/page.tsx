@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase'
+import { client } from '@/lib/supabase/client'
 import AgentCard from '@/components/agents/AgentCard'
 
 export default function AgentsPage() {
@@ -14,7 +14,7 @@ export default function AgentsPage() {
   }, [])
 
   const loadAgents = async () => {
-    const { data } = await supabase.from('agents').select('*').eq('is_active', true)
+    const { data } = await client.from('agents').select('*').eq('is_active', true)
     setAgents(data || [])
   }
 

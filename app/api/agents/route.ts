@@ -1,7 +1,7 @@
-import { supabase } from '@/lib/supabase'
+import { client } from '@/lib/supabase/client'
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
-  const { data: agent } = await supabase
+  const { data: agent } = await client
     .from('agents')
     .select('*')
     .eq('id', params.id)

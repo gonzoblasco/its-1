@@ -1,16 +1,16 @@
 import { AIService } from '@/services/ai-service'
-import { supabase } from '@/lib/supabase'
+import { client } from '@/lib/supabase/client'
 
 export async function POST(req: Request) {
   const { message, conversation_id } = await req.json()
 
   // Guardar mensaje usuario
-  await supabase.from('messages').insert({
+  await client.from('messages').insert({
     conversation_id, role: 'user', content: message
   })
 
   // Obtener conversación y agente
-  const { data: conversation } = await supabase
+  const { data: conversation } = await client
     .from('conversations')
     .select('*, agents(*)')
     .eq('id', conversation_id)
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   )
 
   // Guardar respuesta
-  await supabase.from('messages').insert({
+  await client.from('messages').insert({
     conversation_id, role: 'assistant', content: reply
   })
 

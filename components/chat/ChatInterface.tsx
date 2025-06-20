@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
-import { supabase } from '@/lib/supabase'
+import { client } from '@/lib/supabase/client'
 import ExportButton from "@/components/chat/ExportButton";
 
 export default function ChatInterface({ agent, conversationId }: { agent: any, conversationId: string }) {
@@ -18,7 +18,7 @@ export default function ChatInterface({ agent, conversationId }: { agent: any, c
   }, [conversationId])
 
   const loadMessages = async () => {
-    const { data } = await supabase
+    const { data } = await client
       .from('messages')
       .select('*')
       .eq('conversation_id', conversationId)

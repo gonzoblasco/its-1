@@ -1,9 +1,9 @@
-import { supabase } from '@/lib/supabase'
+import { client } from '@/lib/supabase/client'
 
 export async function POST(req: Request) {
   const { agent_id, form_responses } = await req.json()
 
-  const { data: conversation } = await supabase
+  const { data: conversation } = await client
     .from('conversations')
     .insert({
       agent_id,

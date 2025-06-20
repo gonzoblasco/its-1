@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
-import { supabase } from '@/lib/supabase'
+import { client } from '@/lib/supabase/client'
 
 export default function DynamicAgentForm({ agent, onComplete }: { agent: any, onComplete: (data: any) => void }) {
   const [formFields, setFormFields] = useState([])
@@ -14,7 +14,7 @@ export default function DynamicAgentForm({ agent, onComplete }: { agent: any, on
   }, [agent.id])
 
   const loadFormFields = async () => {
-    const { data } = await supabase
+    const { data } = await client
       .from('agent_form_fields')
       .select('*')
       .eq('agent_id', agent.id)

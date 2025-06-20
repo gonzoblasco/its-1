@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase'
+import { client } from '@/lib/supabase/client'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
@@ -12,7 +12,7 @@ export default function ConversationsPage() {
   }, [])
 
   const loadConversations = async () => {
-    const { data } = await supabase
+    const { data } = await client
       .from('conversations')
       .select(`
         *,

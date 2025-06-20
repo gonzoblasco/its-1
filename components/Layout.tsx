@@ -2,12 +2,17 @@
 import Link from 'next/link'
 import CreditsCounter from './ui/CreditsCounter'
 import { useAuth } from '@/lib/auth-context'
-import { AuthLoading } from './auth/auth-loading'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { user, loading, signOut } = useAuth()
 
-  if (loading) return <AuthLoading />
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

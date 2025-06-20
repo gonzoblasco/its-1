@@ -27,6 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const getSession = async () => {
       const { data: { session } } = await supabase.auth.getSession()
+      console.log('Session:', session)
       setUser(session?.user ?? null)
       setLoading(false)
     }
@@ -36,6 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log('Auth change:', _event, session)
       setUser(session?.user ?? null)
       setLoading(false)
     })
@@ -85,5 +87,4 @@ export const useAuth = () => {
   return context
 }
 
-// Export supabase for backward compatibility
 export { supabase }

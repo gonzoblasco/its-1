@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect, use } from 'react'
-import AgentForm from '@/components/forms/AgentForm'
+import DynamicAgentForm from '@/components/forms/DynamicAgentForm'
 import ChatInterface from '@/components/chat/ChatInterface'
 
 export default function ChatPage({ params }: { params: Promise<{ agentId: string }> }) {
@@ -28,6 +28,6 @@ export default function ChatPage({ params }: { params: Promise<{ agentId: string
   }
 
   if (!agent) return <div>Cargando...</div>
-  if (showForm) return <AgentForm agent={agent} onComplete={startChat} />
+  if (showForm) return <DynamicAgentForm agent={agent} onComplete={startChat} />
   return <ChatInterface agent={agent} conversationId={conversationId} />
 }

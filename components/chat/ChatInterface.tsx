@@ -1,13 +1,31 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
+import { supabase } from '@/lib/supabase'
+import ExportButton from "@/components/chat/ExportButton";
 
-export default function ChatInterface({ agent }: { agent: any }) {
+export default function ChatInterface({ agent, conversationId }: { agent: any, conversationId: string }) {
   const [messages, setMessages] = useState<any[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (conversationId) {
+      loadMessages()
+    }
+  }, [conversationId])
+
+  const loadMessages = async () => {
+    const { data } = await supabase
+      .from('messages')
+      .select('*')
+      .eq('conversation_id', conversationId)
+      .order('created_at', { ascending: true })
+
+    setMessages(data || [])
+  }
 
   const sendMessage = async () => {
     if (!input.trim()) return
@@ -22,8 +40,7 @@ export default function ChatInterface({ agent }: { agent: any }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message: input,
-        agent_id: agent.id,
-        system_prompt: agent.base_prompt
+        conversation_id: conversationId
       })
     })
 
@@ -35,8 +52,13 @@ export default function ChatInterface({ agent }: { agent: any }) {
   return (
     <div className="flex flex-col h-screen p-4">
       <Card className="p-4 mb-4">
-        <h2 className="font-bold">{agent.name}</h2>
-        <p className="text-sm text-gray-600">{agent.description}</p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h2 className="font-bold">{agent.name}</h2>
+            <p className="text-sm text-gray-600">{agent.description}</p>
+          </div>
+          <ExportButton messages={messages} agent={agent} />
+        </div>
       </Card>
 
       <div className="flex-1 overflow-y-auto space-y-4 mb-4">
@@ -52,7 +74,7 @@ export default function ChatInterface({ agent }: { agent: any }) {
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyUp={(e) => e.key === 'Enter' && sendMessage()}
+          onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
           placeholder="Escribe tu mensaje..."
         />
         <Button onClick={sendMessage} disabled={loading}>Enviar</Button>

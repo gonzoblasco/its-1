@@ -1,3 +1,4 @@
+'use client'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -9,6 +10,19 @@ const plans = [
 ]
 
 export default function UpgradePage() {
+  const handleUpgrade = async (planId: string) => {
+    if (planId === 'free') return
+
+    const response = await fetch('/api/payments/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan: planId })
+    })
+
+    const { init_point } = await response.json()
+    window.location.href = init_point
+  }
+
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold text-center mb-8">Elige tu Plan</h1>
@@ -23,7 +37,11 @@ export default function UpgradePage() {
                 <li key={feature} className="text-sm">✓ {feature}</li>
               ))}
             </ul>
-            <Button className="w-full mt-6" disabled={plan.id === 'free'}>
+            <Button
+              className="w-full mt-6"
+              onClick={() => handleUpgrade(plan.id)}
+              disabled={plan.id === 'free'}
+            >
               {plan.id === 'free' ? 'Plan Actual' : 'Seleccionar'}
             </Button>
           </Card>

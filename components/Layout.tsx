@@ -10,6 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center space-x-4">
             <CreditsCounter />
             <Link href="/agents" className="text-blue-600 hover:underline">Agentes</Link>
+            <Link href="/upgrade" className="text-purple-600 hover:underline font-medium">Upgrade</Link>
           </div>
         </div>
       </nav>

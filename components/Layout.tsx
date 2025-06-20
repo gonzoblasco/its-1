@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import CreditsCounter from './ui/CreditsCounter'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -6,7 +7,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <nav className="bg-white shadow-sm border-b">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <Link href="/" className="text-xl font-bold">InnoTech Solutions</Link>
-          <Link href="/agents" className="text-blue-600 hover:underline">Agentes</Link>
+          <div className="flex items-center space-x-4">
+            <CreditsCounter />
+            <Link href="/agents" className="text-blue-600 hover:underline">Agentes</Link>
+          </div>
         </div>
       </nav>
       {children}

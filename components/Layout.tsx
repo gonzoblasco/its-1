@@ -21,12 +21,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Link href="/agents" className="text-blue-600 hover:underline">Agentes</Link>
                 <Link href="/conversations" className="text-blue-600 hover:underline">Historial</Link>
                 <Link href="/upgrade" className="text-purple-600 hover:underline font-medium">Upgrade</Link>
-                <button onClick={signOut} className="text-red-600 hover:underline">Salir</button>
+                <button onClick={signOut} className="text-red-600 hover:underline text-sm">
+                  Salir
+                </button>
               </>
             ) : (
               <>
                 <Link href="/login" className="text-blue-600 hover:underline">Iniciar Sesión</Link>
-                <Link href="/register" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Registrarse</Link>
+                <Link href="/register" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm">
+                  Registrarse
+                </Link>
               </>
             )}
           </div>

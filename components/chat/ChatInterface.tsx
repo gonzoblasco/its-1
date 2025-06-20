@@ -52,7 +52,7 @@ export default function ChatInterface({ agent }: { agent: any }) {
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+          onKeyUp={(e) => e.key === 'Enter' && sendMessage()}
           placeholder="Escribe tu mensaje..."
         />
         <Button onClick={sendMessage} disabled={loading}>Enviar</Button>
